@@ -1,4 +1,3 @@
-require 'sinatra/base'
 require 'grape'
 require 'novel'
 
@@ -12,11 +11,20 @@ module Novel
         { hello: 'world' }
       end
 
-      namespace :novel do
-        get :updates do
-          limit = params[:limit] || 20
-          c = ::Novel::API::Client.new
-          c.fetch_updates(limit: limit)
+      get :novels do
+        limit = params[:limit] || 20
+        c = ::Novel::API::Client.new
+        c.fetch_updates(limit: limit)
+      end
+
+      namespace :novels do
+        params do
+          requires :id, type: String
+        end
+        get ':id' do
+          id = params[:id]
+          error! "#{id} is not_found", 404
+          { id: id }
         end
       end
     end
