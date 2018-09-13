@@ -1,5 +1,5 @@
 module Novel
-  class Entity
+  module Entity
     class Author < ::Hashie::Dash
       property :id,   required: true
       property :name, required: true

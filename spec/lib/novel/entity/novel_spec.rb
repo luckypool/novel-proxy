@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Novel::Entity do
+describe Novel::Entity::Novel do
   describe ".parse" do
     let(:valid_data) do
       {
@@ -20,7 +20,7 @@ describe Novel::Entity do
       let(:valid_category) { Novel::Entity::Category.create(valid_data["biggenre"]) }
       let(:valid_sub_category) { Novel::Entity::SubCategory.create(valid_data["genre"]) }
       let(:valid_entity) do
-        Novel::Entity.new(
+        Novel::Entity::Novel.new(
           id: valid_data["ncode"],
           title: valid_data["title"],
           author: valid_author,
@@ -30,15 +30,15 @@ describe Novel::Entity do
           updated_at: Time.parse(valid_data["general_lastup"]).to_i
         )
       end
-      subject { Novel::Entity.parse(valid_data) }
-      it { is_expected.to be_a Novel::Entity }
+      subject { Novel::Entity::Novel.parse(valid_data) }
+      it { is_expected.to be_a Novel::Entity::Novel }
       it { is_expected.to eq valid_entity }
       it { expect(subject.category).to be_a Novel::Entity::Category }
       it { expect(subject.sub_category).to be_a Novel::Entity::SubCategory }
     end
 
     context "when gave invalid data" do
-      it { expect{ Novel::Entity.parse(foo: 'bar') }.to raise_error(Exception) }
+      it { expect{ Novel::Entity::Novel.parse(foo: 'bar') }.to raise_error(Exception) }
     end
   end
 end
