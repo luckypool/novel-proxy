@@ -3,6 +3,7 @@ require 'time'
 
 module Novel
   class Entity < ::Hashie::Dash
+    require_relative 'entity/author'
     require_relative 'entity/category'
     require_relative 'entity/sub_category'
 
@@ -16,13 +17,14 @@ module Novel
 
     def self.parse(e)
       # e = narou_entity
+      author       = Author.create(e["userid"], e["writer"])
       category     = Category.create(e["biggenre"])
       sub_category = SubCategory.create(e["genre"])
 
       self.new(
         id: e["ncode"],
         title: e["title"],
-        author: e["writer"],
+        author: author,
         category: category,
         sub_category: sub_category,
         created_at: Time.parse(e["general_firstup"]).to_i,

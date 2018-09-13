@@ -1,3 +1,5 @@
-require './app'
+$:.unshift "./lib"
 
-run Rack::Cascade.new [API, Web]
+require "novel/web"
+
+run Novel::Web::API

@@ -16,13 +16,14 @@ describe Novel::Entity do
     end
 
     context "when gave valid data" do
+      let(:valid_author) { Novel::Entity::Author.create(valid_data["userid"], valid_data["writer"]) }
       let(:valid_category) { Novel::Entity::Category.create(valid_data["biggenre"]) }
       let(:valid_sub_category) { Novel::Entity::SubCategory.create(valid_data["genre"]) }
       let(:valid_entity) do
         Novel::Entity.new(
           id: valid_data["ncode"],
           title: valid_data["title"],
-          author: valid_data["writer"],
+          author: valid_author,
           category: valid_category,
           sub_category: valid_sub_category,
           created_at: Time.parse(valid_data["general_firstup"]).to_i,
