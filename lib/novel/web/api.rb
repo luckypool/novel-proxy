@@ -11,6 +11,19 @@ module Novel
         { hello: 'world' }
       end
 
+      namespace :authors do
+        params do
+          requires :id, type: String
+        end
+        get ':id' do
+          id = params[:id]
+          c = ::Novel::API::Client.new
+          response = c.fetch_by_author_id(id)
+          # error! "#{id} is not_found", 404
+          response
+        end
+      end
+
       get :novels do
         limit = params[:limit] || 20
         c = ::Novel::API::Client.new
@@ -23,8 +36,10 @@ module Novel
         end
         get ':id' do
           id = params[:id]
-          error! "#{id} is not_found", 404
-          { id: id }
+          c = ::Novel::API::Client.new
+          response = c.fetch_novel_detail(id)
+          # error! "#{id} is not_found", 404
+          response
         end
       end
     end
